@@ -58,13 +58,13 @@ import java.nio.charset.Charset;
  *
  * <p>
  * <b>For example:</b>
- * <code>
  * <pre>
+ * <code>
  * JsonParserFactory factory = Json.createParserFactory();
  * JsonParser parser1 = factory.createParser(...);
  * JsonParser parser2 = factory.createParser(...);
- * </pre>
  * </code>
+ * </pre>
  *
  * <p> All of the methods in this class are safe for use by multiple concurrent
  * threads.</p>
@@ -87,7 +87,7 @@ public interface JsonParserFactory {
      *
      * @param in i/o stream from which JSON is to be read
      * @throws javax.json.JsonException if encoding cannot be determined
-     *         or i/o error
+     *         or i/o error (IOException would be cause of JsonException)
      */
     JsonParser createParser(InputStream in);
 

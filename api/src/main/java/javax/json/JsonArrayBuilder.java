@@ -53,20 +53,20 @@ import java.util.*;
  * <p>
  * <b>For example</b>, for the following JSON array
  *
- * <code>
  * <pre>
+ * <code>
  * [
  *     { "type": "home", "number": "212 555-1234" },
  *     { "type": "fax", "number": "646 555-4567" }
  * ]
- * </pre>
  * </code>
+ * </pre>
  *
  * a JsonArray instance can be built using:
  *
  * <p>
- * <code>
  * <pre>
+ * <code>
  * JsonArray value = new JsonArrayBuilder()
  *     .add(new JsonObjectBuilder()
  *         .add("type", "home")
@@ -75,14 +75,18 @@ import java.util.*;
  *         .add("type", "fax")
  *         .add("number", "646 555-4567"))
  *     .build();
- * </pre>
  * </code>
+ * </pre>
  *
  * @see JsonObjectBuilder
  */
 public class JsonArrayBuilder {
     private final List<JsonValue> valueList;
 
+    /**
+     * Constructs a {@code JsonArrayBuilder} that initializes an empty JSON
+     * array that is being built.
+     */
     public JsonArrayBuilder() {
         this.valueList = new ArrayList<JsonValue>();
     }
@@ -327,10 +331,6 @@ final class JsonStringImpl implements JsonString {
 
 final class JsonNumberImpl implements JsonNumber {
     private final BigDecimal bigDecimal;
-    private static final BigDecimal INT_MIN_VALUE = new BigDecimal(Integer.MIN_VALUE);
-    private static final BigDecimal INT_MAX_VALUE = new BigDecimal(Integer.MAX_VALUE);
-    private static final BigDecimal LONG_MIN_VALUE = new BigDecimal(Long.MIN_VALUE);
-    private static final BigDecimal LONG_MAX_VALUE = new BigDecimal(Long.MAX_VALUE);
 
     public JsonNumberImpl(int value) {
         bigDecimal = new BigDecimal(value);
@@ -356,17 +356,7 @@ final class JsonNumberImpl implements JsonNumber {
 
     @Override
     public NumberType getNumberType() {
-        if (bigDecimal.scale() != 0)  {
-            return NumberType.BIG_DECIMAL;
-        } else {
-            if (bigDecimal.compareTo(INT_MIN_VALUE) >= 0 && bigDecimal.compareTo(INT_MAX_VALUE) <= 0) {
-                return NumberType.INT;
-            } else if (bigDecimal.compareTo(LONG_MIN_VALUE) >= 0 && bigDecimal.compareTo(LONG_MAX_VALUE) <= 0) {
-                return NumberType.LONG;
-            } else {
-                return NumberType.BIG_DECIMAL;
-            }
-        }
+        return bigDecimal.scale() == 0 ? NumberType.INTEGER : NumberType.DECIMAL;
     }
 
     @Override

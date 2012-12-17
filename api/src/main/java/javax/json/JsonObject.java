@@ -43,37 +43,39 @@ package javax.json;
 import java.util.Map;
 
 /**
- * {@code JsonObject} class represents an immutable JSON object value.
- * It also provides unmodifiable map view to the JSON object mappings.
+ * {@code JsonObject} class represents an immutable JSON object value
+ * (an unordered collection of zero or more name/value pairs).
+ * It also provides unmodifiable map view to the JSON object
+ * name/value mappings.
  *
  * <p>
- * A full JsonObject instance can be created from an input source using
+ * A JsonObject instance can be created from an input source using
  * {@link JsonReader#readObject()}. For example:
  *
- * <code>
  * <pre>
- * JsonReader jsonReader = new JsonReader(...));
+ * <code>
+ * JsonReader jsonReader = new JsonReader(...);
  * JsonObject object = jsonReader.readObject();
  * jsonReader.close();
- * </pre>
  * </code>
+ * </pre>
  *
- * It can also be built from scratch using {@link JsonObjectBuilder}.
+ * It can also be built from scratch using a {@link JsonObjectBuilder}.
  *
  * <p>
  * For example 1:
- * <code>
  * <pre>
+ * <code>
  * An empty JSON object can be built as follows:
  *
- * JsonArray array = new JsonObjectBuilder().build();
- * </pre>
+ * JsonObject object = new JsonObjectBuilder().build();
  * </code>
+ * </pre>
  *
  * <p>
  * For example 2:
- * <code>
  * <pre>
+ * <code>
  * The following JSON
  *
  * {
@@ -109,17 +111,17 @@ import java.util.Map;
  *             .add("type", "fax")
  *             .add("number", "646 555-4567")))
  *     .build();
- * </pre>
  * </code>
+ * </pre>
  *
  * {@code JsonObject} can be written to JSON as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonWriter writer = ...
  * JsonObject obj = ...;
  * writer.writeobject(obj);
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * {@code JsonObject} values can be {@link JsonObject}, {@link JsonArray},
@@ -129,11 +131,11 @@ import java.util.Map;
  *
  * <p>
  * In the above example 2, "John" can be got using
- * <code>
  * <pre>
+ * <code>
  * String firstName = object.getStringValue("firstName");
- * </pre>
  * </code>
+ * </pre>
  *
  * This map object provides read-only access to the JSON object data,
  * and attempts to modify the map, whether direct or via its collection

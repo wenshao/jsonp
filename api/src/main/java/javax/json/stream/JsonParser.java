@@ -57,23 +57,23 @@ import java.math.BigDecimal;
  *
  * <p>
  * For example, a parser for empty JSON array can be created as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonParser parser = Json.createParser(new StringReader("[]"));
- * </pre>
  * </code>
+ * </pre>
  *
  * A parser can also be created using {@link JsonParserFactory}. If
  * multiple parser instances are created, then creating them using
  * a factory is preferred.
  * <p>
- * <code>
  * <pre>
+ * <code>
  * JsonParserFactory factory = Json.createParserFactory();
  * JsonParser parser1 = factory.createParser(...);
  * JsonParser parser2 = factory.createParser(...);
- * </pre>
  * </code>
+ * </pre>
  * 
  * <p>
  * The parser is used to parse JSON in a pull manner by calling its
@@ -86,12 +86,12 @@ import java.math.BigDecimal;
  * events at the specified locations. Those events can be accessed using the
  * following code.
  *
- * <code>
  * <pre>
+ * <code>
  * Event event = parser.next(); // START_OBJECT
  * event = parser.next();       // END_OBJECT
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * <b>For example 2</b>:
@@ -125,14 +125,14 @@ import java.math.BigDecimal;
  * Here, "John" value is accessed as follows:
  *
  * <p>
- * <code>
  * <pre>
+ * <code>
  * Event event = parser.next(); // START_OBJECT
  * event = parser.next();       // KEY_NAME
  * event = parser.next();       // VALUE_STRING
  * parser.getString();          // "John"
- * </pre>
  * </code>
+ * </pre>
  *
  * @see javax.json.Json
  * @see JsonParserFactory
@@ -200,7 +200,8 @@ public interface JsonParser extends /*Auto*/Closeable {
      * false if the parser reaches the end state of JSON text.
      *
      * @return true if there are more parsing states
-     * @throws javax.json.JsonException if there is an i/o error
+     * @throws javax.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
      * @throws JsonParsingException if incorrect JSON is encountered while
      * advancing the parser to next state
      */
@@ -209,7 +210,8 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Returns the event for next parsing state.
      *
-     * @throws javax.json.JsonException if there is an i/o error
+     * @throws javax.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
      * @throws JsonParsingException if incorrect JSON is encountered while
      * advancing the parser to next state
      * @throws java.util.NoSuchElementException if there are no more parsing
@@ -232,33 +234,29 @@ public interface JsonParser extends /*Auto*/Closeable {
     String getString();
 
     /**
-     * Returns a number type that can hold JSON number. A {@link BigDecimal}
-     * may be used to store the numeric value of the number. If the scale of
-     * a value is non-zero, its number type is
-     * {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}.
-     * If the scale is zero, and the value is numerically an integer.
-     * If the value can be exactly represented as an int, its type is
-     * {@link javax.json.JsonNumber.NumberType#INT INT}; if the value can be exactly represented
-     * as a long, its type is {@link javax.json.JsonNumber.NumberType#LONG LONG}; otherwise,
-     * its type is {@link javax.json.JsonNumber.NumberType#BIG_DECIMAL BIG_DECIMAL}.
+     * Returns a JSON number type for this number.
+     * A {@link BigDecimal} may be used to store the numeric value internally
+     * and the semantics of this method is defined using
+     * {@link BigDecimal#scale()}.
+     * If the scale of a value is zero, then its number type is
+     * {@link javax.json.JsonNumber.NumberType#INTEGER INTEGER} else
+     * {@link javax.json.JsonNumber.NumberType#DECIMAL DECIMAL}.
      *
      * <p>
-     * This method can be used to get the correct number type for a number.
-     * For example:
-     * <code>
+     * The number type can be used to invoke appropriate accessor methods to get
+     * numeric value for the number.
+     * <p>
+     * <b>For example:</b>
      * <pre>
-     * switch(parser.getNumberType()) {
-     *     case INT :
-     *         int i = parser.getIntValue(); break;
-     *     case LONG :
-     *         long l = parser.getLongValue(); break;
-     *     case BIG_DECIMAL :
-     *         BigDecimal bd = parser.getBigDecimalValue(); break;
+     * <code>
+     * switch(getNumberType()) {
+     *     case INTEGER :
+     *         long l = getLongValue(); break;
+     *     case DECIMAL :
+     *         BigDecimal bd = getBigDecimalValue(); break;
      * }
-     * </pre>
      * </code>
-     * This method can only be called when the parser
-     * state is {@link Event#VALUE_NUMBER}
+     * </pre>
      *
      * @return a number type
      * @throws IllegalStateException when the parser state is not
@@ -328,6 +326,9 @@ public interface JsonParser extends /*Auto*/Closeable {
     /**
      * Closes this parser and frees any resources associated with the
      * parser. This closes the underlying input source.
+     *
+     * @throws javax.json.JsonException if an i/o error occurs (IOException
+     * would be cause of JsonException)
      */
     @Override
     void close();

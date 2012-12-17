@@ -50,6 +50,9 @@ import java.io.*;
 /**
  * Factory to create {@link JsonParser}, {@link JsonGenerator},
  * {@link JsonParserFactory} and {@link JsonGeneratorFactory} instances.
+ * This lists only commonly used methods to create {@link JsonParser}
+ * and {@link JsonGenerator} objects, the corresponding factories
+ * have all the methods to create these objects.
  *
  * <p>
  * All the methods would locate a provider instance, which is returned by
@@ -60,12 +63,12 @@ import java.io.*;
  * <p>
  * For example, a JSON parser for parsing an empty array could be created as
  * follows:
- * <code>
  * <pre>
+ * <code>
  * StringReader reader = new StringReader("[]");
  * JsonParser parser = Json.createParser(reader);
- * </pre>
  * </code>
+ * </pre>
  *
  * <p>
  * All of the methods in this class are safe for use by multiple concurrent
@@ -94,7 +97,7 @@ public class Json {
      *
      * @param in i/o stream from which JSON is to be read
      * @throws JsonException if encoding cannot be determined
-     *         or i/o error
+     *         or i/o error (IOException would be cause of JsonException)
      */
     public static JsonParser createParser(InputStream in) {
         return JsonProvider.provider().createParser(in);

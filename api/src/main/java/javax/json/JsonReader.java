@@ -52,16 +52,17 @@ import java.nio.charset.Charset;
  * {@link JsonArray array} from an input source.
  *
  * <p><b>For example</b>, an empty JSON array can be created as follows:
- * <code>
  * <pre>
+ * <code>
  * JsonReader jsonReader = new JsonReader(new StringReader("[]"));
  * JsonArray array = jsonReader.readArray();
  * jsonReader.close();
- * </pre>
  * </code>
+ * </pre>
  *
- * It uses {@link javax.json.stream.JsonParser} for parsing. The parser
- * is created using one of the {@link Json}'s {@code createParser} methods.
+ * It uses {@link javax.json.stream.JsonParser} internally for parsing. The
+ * parser is created using one of the {@link Json}'s {@code createParser}
+ * methods.
  *
  * @author Jitendra Kotamraju
  */
@@ -135,7 +136,10 @@ public class JsonReader implements /*Auto*/Closeable {
      *
      * @return a Json object or array
      * @throws JsonException if a JSON object or array cannot
-     *     be created due to i/o error or incorrect representation
+     *     be created due to i/o error (IOException would be
+     * cause of JsonException)
+     * @throws JsonParsingException if a JSON object or array cannot
+     *     be created due to incorrect representation
      * @throws IllegalStateException if this method, readObject, readArray or
      *     close method is already called
      */
@@ -163,8 +167,11 @@ public class JsonReader implements /*Auto*/Closeable {
      * only once for a reader instance.
      *
      * @return a Json object
-     * @throws JsonException if a JSON object or array cannot
-     *     be created due to i/o error or incorrect representation
+     * @throws JsonException if a JSON object cannot
+     *     be created due to i/o error (IOException would be
+     *     cause of JsonException)
+     * @throws JsonParsingException if a JSON object cannot
+     *     be created due to incorrect representation
      * @throws IllegalStateException if this method, readObject, readArray or
      *     close method is already called
      */
@@ -192,8 +199,11 @@ public class JsonReader implements /*Auto*/Closeable {
      * only once for a reader instance.
      *
      * @return a Json array
-     * @throws JsonException if a JSON object or array cannot
-     *     be created due to i/o error or incorrect representation
+     * @throws JsonException if a JSON array cannot
+     *     be created due to i/o error (IOException would be
+     *     cause of JsonException)
+     * @throws JsonParsingException if a JSON array cannot
+     *     be created due to incorrect representation
      * @throws IllegalStateException if this method, readObject, readArray or
      *     close method is already called
      */
@@ -218,6 +228,9 @@ public class JsonReader implements /*Auto*/Closeable {
     /**
      * Closes this reader and frees any resources associated with the
      * reader. This closes the underlying input source.
+     *
+     * @throws JsonException if an i/o error occurs (IOException would be
+     * cause of JsonException)
      */
     @Override
     public void close() {
