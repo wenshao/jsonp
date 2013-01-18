@@ -51,7 +51,9 @@ import java.nio.charset.Charset;
  * A JSON reader that reads a JSON {@link JsonObject object} or
  * {@link JsonArray array} from an input source.
  *
- * <p><b>For example</b>, an empty JSON array can be created as follows:
+ * <p>
+ * <a id="JsonReaderExample1"/>
+ * <b>For example</b>, an empty JSON array can be created as follows:
  * <pre>
  * <code>
  * JsonReader jsonReader = new JsonReader(new StringReader("[]"));
@@ -138,8 +140,8 @@ public class JsonReader implements /*Auto*/Closeable {
      * @throws JsonException if a JSON object or array cannot
      *     be created due to i/o error (IOException would be
      * cause of JsonException)
-     * @throws JsonParsingException if a JSON object or array cannot
-     *     be created due to incorrect representation
+     * @throws javax.json.stream.JsonParsingException if a JSON object or array
+     *     cannot be created due to incorrect representation
      * @throws IllegalStateException if this method, readObject, readArray or
      *     close method is already called
      */
@@ -170,7 +172,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * @throws JsonException if a JSON object cannot
      *     be created due to i/o error (IOException would be
      *     cause of JsonException)
-     * @throws JsonParsingException if a JSON object cannot
+     * @throws javax.json.stream.JsonParsingException if a JSON object cannot
      *     be created due to incorrect representation
      * @throws IllegalStateException if this method, readObject, readArray or
      *     close method is already called
@@ -202,7 +204,7 @@ public class JsonReader implements /*Auto*/Closeable {
      * @throws JsonException if a JSON array cannot
      *     be created due to i/o error (IOException would be
      *     cause of JsonException)
-     * @throws JsonParsingException if a JSON array cannot
+     * @throws javax.json.stream.JsonParsingException if a JSON array cannot
      *     be created due to incorrect representation
      * @throws IllegalStateException if this method, readObject, readArray or
      *     close method is already called
